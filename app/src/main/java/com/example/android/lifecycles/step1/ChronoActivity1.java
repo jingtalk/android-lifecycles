@@ -18,11 +18,18 @@ package com.example.android.lifecycles.step1;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Chronometer;
 
 import com.example.android.codelabs.lifecycle.R;
 
-
+/**
+ * 在 Activity 中添加
+ * android:configChanges="orientation|keyboardHidden"
+ * 可以防止 Activity 重构，但是无法避免 Chronometer 重构
+ * onCreate 不会调用
+ * onConfigurationChanged 会调用
+ */
 public class ChronoActivity1 extends AppCompatActivity {
 
     @Override
@@ -30,8 +37,8 @@ public class ChronoActivity1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("JING", "onCreate");
         Chronometer chronometer = findViewById(R.id.chronometer);
-
         chronometer.start();
     }
 }

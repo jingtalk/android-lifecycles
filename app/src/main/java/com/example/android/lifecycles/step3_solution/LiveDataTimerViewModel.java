@@ -39,6 +39,12 @@ public class LiveDataTimerViewModel extends ViewModel {
         mInitialTime = SystemClock.elapsedRealtime();
         Timer timer = new Timer();
 
+        /**
+         * scheduleAtFixedRate(Runnable command, long initialDelay, long period)
+         * 创建并执行一个在给定初始延迟后首次启用的定期操作，后续操作具有给定的周期；
+         * 也就是将在 initialDelay 后开始执行，然后在initialDelay+period 后执行，
+         * 接着在 initialDelay + 2 * period 后执行，依此类推
+         */
         // Update the elapsed time every second.
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override

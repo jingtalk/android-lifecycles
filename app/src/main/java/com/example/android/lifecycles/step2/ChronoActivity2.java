@@ -20,6 +20,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Chronometer;
 
 import com.example.android.codelabs.lifecycle.R;
@@ -30,7 +31,7 @@ public class ChronoActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d("JING", "onCreate");
         // The ViewModelStore provides a new ViewModel or one previously created.
         ChronometerViewModel chronometerViewModel
                 = ViewModelProviders.of(this).get(ChronometerViewModel.class);
@@ -40,6 +41,10 @@ public class ChronoActivity2 extends AppCompatActivity {
 
         if (chronometerViewModel.getStartTime() == null) {
             // If the start date is not defined, it's a new ViewModel so set it.
+            /**
+             * System.currentTimeMillis()获取的是系统时间，是距离1970年1月1日开始计算的一个值；
+             * android.os.SystemClock.elapsedRealtime()获取从设备boot后经历的时间值。
+             */
             long startTime = SystemClock.elapsedRealtime();
             chronometerViewModel.setStartTime(startTime);
             chronometer.setBase(startTime);
@@ -50,5 +55,11 @@ public class ChronoActivity2 extends AppCompatActivity {
         }
 
         chronometer.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("JING", "onDestroy");
     }
 }

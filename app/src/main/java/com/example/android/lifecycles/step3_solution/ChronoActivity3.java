@@ -36,11 +36,16 @@ public class ChronoActivity3 extends AppCompatActivity {
 
         setContentView(R.layout.chrono_activity_3);
 
+        // 此处传入的 this 实例是 Activity(LifecycleOwner实例)，当 Activity 销毁再次重建的时候，可以与 ViewModel 再次关联
         mLiveDataTimerViewModel = ViewModelProviders.of(this).get(LiveDataTimerViewModel.class);
 
         subscribe();
     }
 
+    /**
+     * onChanged 只有当前 Activity 处于活动状态时才会触发
+     * 如果进程被杀掉，数据会丢失
+     */
     private void subscribe() {
         final Observer<Long> elapsedTimeObserver = new Observer<Long>() {
             @Override
@@ -48,10 +53,11 @@ public class ChronoActivity3 extends AppCompatActivity {
                 String newText = ChronoActivity3.this.getResources().getString(
                         R.string.seconds, aLong);
                 ((TextView) findViewById(R.id.timer_textview)).setText(newText);
-                Log.d("ChronoActivity3", "Updating timer");
+                Log.d("ChronoActivity3", "Updating timer = " + newText);
             }
         };
 
+        // 订阅监听更新
         mLiveDataTimerViewModel.getElapsedTime().observe(this, elapsedTimeObserver);
     }
 }
